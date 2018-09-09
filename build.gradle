@@ -1,14 +1,41 @@
 group 'com.example.plugin'
-version '1.0-SNAPSHOT'
+version '1.0'
 
 apply plugin: 'groovy'
 
+/** 以下开始是将Plugin上传到jcenter的相关配置**/
+apply plugin: 'com.novoda.bintray-release'//添加
+
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.novoda:bintray-release:0.3.4'
+    }
+}
+
+//项目主页
+def siteUrl = 'https://github.com/zy5123299/testPlugin2'
+publish{
+    userOrg = 'zhaoyun'//bintray.com的用户名
+    repoName = 'MyPlugins'//远程仓库名字,不指明，默认是上传到maven
+    groupId = 'com.example.plugin'//jcenter上的路径
+    artifactId = 'test-plugin2'//项目名称
+    publishVersion = '1.1'//版本号
+    desc = '我的第一个Gradle Plugin工程（测试）'//描述，不重要
+    website = siteUrl//项目主页
+}
+//API Key:09c8c702829c474ae96e10c079cf34b7782e86c9
+//gradle clean build bintrayUpload -PbintrayUser=zhengliang1995 -PbintrayKey=xxxxxxxxxxxx -PdryRun=false
+
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
     compile gradleApi()
     compile localGroovy()
-    compile 'org.codehaus.groovy:groovy-all:2.3.11'
 }
